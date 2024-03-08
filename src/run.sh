@@ -5,6 +5,8 @@
 #Command line argument is number of ints to sort(always less than 100)
 count=$1
 
+gcc -Wall -Wextra ./radix_sort.c -o radix_sort
+
 #Program only can do 100 at a timae //TODO FIXME once submitted
 if [[ $count -gt 100 ]]; then 
 	echo "Too many arguments for this program"

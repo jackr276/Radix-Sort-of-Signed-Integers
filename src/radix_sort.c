@@ -3,16 +3,19 @@
  * Homework 04, only problem(radix sort of integers)
  */
 
-
 #include <stdlib.h>
 #include <stdio.h>
+
 
 /**
  * Main function takes in nothing
  */
 int main(void){
 	//Predeclare the radix_sort_unsigned function
-	void radix_sort_unsigned(unsigned int* arr, int numInts);
+	void radix_sort_unsigned(unsigned int* arr, int size);
+	//Predeclare to_signed_order
+	void to_signed_order(unsigned int* arr, int size);
+
 
 	//We assume the first thing entered is the number of integers to be sorted
 	int numInts;
@@ -32,6 +35,12 @@ int main(void){
 	//Call the radix_sort_unsigned function to perform the sorting
 	radix_sort_unsigned(array, numInts);
 
+	//after doing this, array is sorted in unsigned order, meaning all of the negative
+	//values will appear after the positive values
+	to_signed_order(array, numInts);	
+
+
+
 	//print out the array
 	for(int i = 0; i < numInts; i++){
 		printf("%d\n", array[i]);
@@ -47,13 +56,13 @@ int main(void){
  * Performs a radix sort, treating everything as unsigned
  * Using hexadecimal radix sort -- 16 buckets, 4 bits chunks each time
  */
-void radix_sort_unsigned(unsigned int* arr, int numInts){
+void radix_sort_unsigned(unsigned int* arr, int size){
 	//predeclare the swap and resetArr functions
 	void swap(unsigned int** arr1, unsigned int** arr2);
 	void resetArr(unsigned int* arr, int size);
 	
 	//The buffer array will be saved to when we do our bucket sort
-	unsigned int* buffer = (unsigned int*)malloc(numInts * sizeof(int));
+	unsigned int* buffer = (unsigned int*)malloc(size * sizeof(int));
 
 	//We need this for in the loop. Each 4 bits will be a "chunk"
 	unsigned int chunk;
@@ -73,7 +82,7 @@ void radix_sort_unsigned(unsigned int* arr, int numInts){
 		resetArr(offsets, 16);
 
 		//first go through arr, building up the counters array(number of elements per bucket 0-F)
-		for(int j = 0; j < numInts; j++){
+		for(int j = 0; j < size; j++){
 			//Grab the "ith" 4 bits
 			chunk = (arr[j] >> (4*i)) & mask;
 			//This chunk ranges from 0-15, so it can be used as an index
@@ -87,7 +96,7 @@ void radix_sort_unsigned(unsigned int* arr, int numInts){
 		}
 
 		//Now, we can use offsets to appropriately place each element
-		for(int j = 0; j < numInts; j++){
+		for(int j = 0; j < size; j++){
 			//Grab the "ith" 4 bits
 			chunk = (arr[j] >> (4*i)) & mask;
 			//the position is the offset at this chunk
@@ -124,9 +133,52 @@ void swap(unsigned int** arr1, unsigned int** arr2){
 }
 
 
-//reset the entirety of the given array to be 0s
+/**
+ * A simple helper function that resets every element in an array to 0
+ */
 void resetArr(unsigned int* arr, int size){
 	for(int i = 0; i < size; i++){
 		arr[i] = 0;
 	}
+}
+
+
+/**
+ * A helper function that takes a sorted array of unsigned integers, and puts them
+ * in signed order
+ */
+void to_signed_order(unsigned int* arr, int size){
+	//First, we need to find the index of the first negative number
+	int firstNeg = 0;
+	for(; firstNeg < size; firstNeg++){
+		//break out once we find the first negative
+		if((int)arr[firstNeg] < 0){
+			break;
+		}
+	}
+
+	//Get the subset of all positive integers
+	unsigned int* posSubset = (unsigned int*)malloc(firstNeg * sizeof(int));
+	for(int i = 0; i < firstNeg; i++){
+		posSubset[i] = arr[i];
+	}
+	
+	//Get the subset of all negative numbers
+	unsigned int* negSubset = (unsigned int*)malloc((size - firstNeg)*sizeof(int));
+	for(int i = firstNeg; i < size; i++){
+		negSubset[i - firstNeg] = arr[i];
+	}
+
+	//both of these should be fully in order, so we can now rearrange them
+	for(int i = 0; i < size; i++){
+		if(i < size - firstNeg){
+			arr[i] = negSubset[i];
+		} else {
+			arr[i] = posSubset[i-(size - firstNeg)];
+		}
+	}
+
+	//Once we're done with these free them
+	free(negSubset);
+	free(posSubset);
 }
