@@ -19,7 +19,7 @@ echo "================== input ======================"
 echo ${count} | tee input
 
 #Generate count random integers, print them to output and to integers file
-for (( i=0; i < $count; i++ )); do
+for (( i=0; i<${count}; i++ )); do
 	echo $((RANDOM-16384))
 done | tee -a input
 
