@@ -18,19 +18,19 @@ rm integers
 rm radix_sorted
 rm standard_sorted
 echo "================== input ======================"
-echo ${count} | tee input
+echo ${count} | tee integers
 
 #Generate count random integers, print them to output and to integers file
 for (( i=0; i<${count}; i++ )); do
 	echo $((RANDOM-16384))
-done | tee -a input
+done | tee -a integers 
 
 echo "============= execution result ================"
 
-cat input | ./radix_sort | tee radix_sorted
+cat integers | ./radix_sort | tee radix_sorted
 
 #Display sorted output
-tail -n +2 input | sort -n > standard_sorted
+tail -n +2  integers | sort -n > standard_sorted
 
 #For testing purposes, show comparison
 echo "====== differences from correct result ======="

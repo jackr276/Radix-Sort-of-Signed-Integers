@@ -1,6 +1,6 @@
 /**
  * Author: Jack Robbins
- * Homework 04, only problem(radix sort of integers)
+ * Homework 04, only problem(radix sort of signed integers)
  */
 
 #include <stdlib.h>
@@ -8,14 +8,14 @@
 
 
 /**
- * Main function takes in nothing
+ * The main function simply makes calls to the radix_sort_unsigned and
+ * to_signed_order functions, after it gets input from bash
  */
 int main(void){
 	//Predeclare the radix_sort_unsigned function
 	void radix_sort_unsigned(unsigned int* arr, int size);
 	//Predeclare to_signed_order
 	void to_signed_order(unsigned int* arr, int size);
-
 
 	//We assume the first thing entered is the number of integers to be sorted
 	int numInts;
@@ -38,8 +38,6 @@ int main(void){
 	//after doing this, array is sorted in unsigned order, meaning all of the negative
 	//values will appear after the positive values
 	to_signed_order(array, numInts);	
-
-
 
 	//print out the array
 	for(int i = 0; i < numInts; i++){
@@ -111,7 +109,6 @@ void radix_sort_unsigned(unsigned int* arr, int size){
 		swap(&arr, &buffer);
 	}
 
-
 	//we won't need these once everything is sorted
 	free(buffer);
 	free(counters);
@@ -120,11 +117,12 @@ void radix_sort_unsigned(unsigned int* arr, int size){
 
 
 /**
- * A simple simply swaps arr1 and arr2
+ * A simple simply swaps arr1 and arr2. To do this, we need pointers
+ * to the arrays, not just pointers that represent the array
  */
 void swap(unsigned int** arr1, unsigned int** arr2){
+	//Used to temporarily hold arr1
 	unsigned int* temp;
-
 	//store arr1 in temp, set arr1 to arr2, then set arr2 to temp(old arr1)
 	temp = *arr1;
 	//set the array 1 pointer to the array 2 pointer
@@ -166,14 +164,18 @@ void to_signed_order(unsigned int* arr, int size){
 	//Get the subset of all negative numbers
 	unsigned int* negSubset = (unsigned int*)malloc((size - firstNeg)*sizeof(int));
 	for(int i = firstNeg; i < size; i++){
+		//We'll need to adjust the index accordingly here
 		negSubset[i - firstNeg] = arr[i];
 	}
-
-	//both of these should be fully in order, so we can now rearrange them
+	
+	//both subsets should already be fully in order, so we can now rearrange them
 	for(int i = 0; i < size; i++){
+		//The first size-firstNeg numbers will be negative
 		if(i < size - firstNeg){
 			arr[i] = negSubset[i];
+		//the remaining numbers will be positive
 		} else {
+			//Positive subset index must be adjusted like such
 			arr[i] = posSubset[i-(size - firstNeg)];
 		}
 	}
