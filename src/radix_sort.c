@@ -29,8 +29,17 @@ int main(void){
 		array[i] = received;
 	}
 
+	//Call the radix_sort_unsigned function to perform the sorting
+	radix_sort_unsigned(array, numInts);
+
+	//print out the array
+	for(int i = 0; i < numInts; i++){
+		printf("%d\n", array[i]);
+	}
+
 	//free when done
 	free(array);
+
 	return 0;
 }
 
@@ -39,17 +48,20 @@ int main(void){
  * Using hexadecimal radix sort -- 16 buckets, 4 bits chunks each time
  */
 void radix_sort_unsigned(unsigned int* arr, int numInts){
-	//Declare the buffer array
-	unsigned int* buffer = (unsigned int*)malloc(numInts * sizeof(int));
-	
-	//go through each 4 bit chunks, 32/4 = 8, so 8 iterations need
-	for(int i = 0; i < 8; i++){
-		//Go through each integer in the array
-	}
+	//predeclare the swap function	
+	void swap(unsigned int** arr1, unsigned int** arr2);
+}
 
 
+/**
+ * A simple simply swaps arr1 and arr2
+ */
+void swap(unsigned int** arr1, unsigned int** arr2){
+	unsigned int* temp;
 
-	
-	//free when done
-	free(buffer);
+	//store arr1 in temp, set arr1 to arr2, then set arr2 to temp(old arr1)
+	temp = *arr1;
+	//set the array 1 pointer to the array 2 pointer
+	*arr1 = *arr2;
+	*arr2 = temp;
 }
