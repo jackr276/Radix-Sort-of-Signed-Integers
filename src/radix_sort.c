@@ -143,7 +143,9 @@ void resetArr(unsigned int* arr, int size){
 
 /**
  * A helper function that takes a sorted array of unsigned integers, and puts them
- * in signed order
+ * in signed order. This function relies on the two's complement representation of
+ * signed integers. We know that the MSB will be 1 for a negative number, meaning
+ * that the negatives will appear AFTER the positives in unsigned order
  */
 void to_signed_order(unsigned int* arr, int size){
 	//First, we need to find the index of the first negative number
