@@ -57,7 +57,7 @@ int main(void){
 void radix_sort_unsigned(unsigned int* arr, int size){
 	//predeclare the swap and resetArr functions
 	void swap(unsigned int** arr1, unsigned int** arr2);
-	void resetArr(unsigned int* arr, int size);
+	void resetArr(int* arr, int size);
 	
 	//The buffer array will be saved to when we do our bucket sort
 	unsigned int* buffer = (unsigned int*)malloc(size * sizeof(int));
@@ -69,9 +69,9 @@ void radix_sort_unsigned(unsigned int* arr, int size){
 
 	//declare counters and offset arrays
 	//We need an array of counters every time this for loop runs
-	unsigned int* counters = (unsigned int*)malloc(16*sizeof(int));
+	int* counters = (int*)malloc(16*sizeof(int));
 	//We also need an array of offsets, to represent bucket locations
-	unsigned int* offsets = (unsigned int*)malloc(16*sizeof(int));
+	int* offsets = ( int*)malloc(16*sizeof(int));
 
 	//Using hexadecimal radix sort, 4 bit chunks, 32/4=8, so 8 overall iterations needed
 	for(int i = 0; i < 8; i++){
@@ -134,7 +134,7 @@ void swap(unsigned int** arr1, unsigned int** arr2){
 /**
  * A simple helper function that resets every element in an array to 0
  */
-void resetArr(unsigned int* arr, int size){
+void resetArr(int* arr, int size){
 	for(int i = 0; i < size; i++){
 		arr[i] = 0;
 	}
