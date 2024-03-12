@@ -1,5 +1,6 @@
-# Jack Robbins
+# Author: Jack Robbins
 # A simple runner script for radix sort
+
 #!/bin/bash
 
 #Command line argument is number of ints to sort(always less than 100)
