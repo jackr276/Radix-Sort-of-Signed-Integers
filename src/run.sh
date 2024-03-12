@@ -7,10 +7,16 @@ count=$1
 
 gcc -Wall -Wextra ./radix_sort.c -o radix_sort
 
-#Program only can do 100 at a timae //TODO FIXME once submitted
-if [[ $count -gt 100 ]]; then 
-	echo "Too many arguments for this program"
-	exit 0;
+#Warn users about large file sizes 
+if [[ $count -gt 249 ]]; then 
+	echo "Warning: using ${count} integers will generate 3 files each of approximate size $(($count*(4)/1000))KB"
+	read -p "Are you sure you want to proceed?[Y/N]: " ANSWER
+	
+	#Abort if user does not agree
+	if [[ $ANSWER != "Y" ]] && [[ $ANSWER != "y" ]]; then 
+		echo "Aborting"
+		exit 0;
+	fi
 fi
 
 # Delete all of the old files
