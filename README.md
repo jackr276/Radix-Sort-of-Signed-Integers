@@ -1,4 +1,4 @@
-# Radix Sort of Unsigned Integers
+# Radix Sort of Signed Integers
 Author: [Jack Robbins](https://www.github.com/jackr276)
 
 This project contains a C program that uses a hexadecimal radix sort to sort signed integers taken in from standard input. A simple runner script is also provided for user convenience and ease of testing.
