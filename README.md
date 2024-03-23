@@ -27,7 +27,7 @@ Without a correction, sorting this `9 -1 2 -11 23` would yield `2 9 23 -11 -1`. 
 
 The function:
 ```C
-void to_signed_order(int* arr, int size);
+void to_signed_order(unsigned int* arr, int size);
 ```
 fixes this problem in **radix_sort.c**.
 
